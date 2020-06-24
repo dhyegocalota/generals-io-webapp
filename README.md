@@ -1,9 +1,15 @@
 # Clone of Generals.io
+This project is meant to clone the game generals.io using React in live on [twitch.tv/dhyegocalota](https://twitch.tv/dhyegocalota)
+
+## Prerequisites
+- Git
+- Node v14+
+- Yarn *(optional)*
 
 ## How to run
-1. Clone using `git clone git@github.com:dhyegocalota/clone-generals-io.git`
-2. Install using `yarn install``
-3. Run using `yarn start`
+1. Clone using `git clone git@github.com:dhyegocalota/generals-io-webapp.git`
+2. Install using `yarn install` or `npm install`
+3. Run using `yarn start` or `npm start`
 
 ## Roadmap
 - To create the board game UI
@@ -13,3 +19,6 @@
     - Keyboard shortcuts
     - Replay
     - Chat
+
+## Episodes
+- Ep. 1 (missing link)
