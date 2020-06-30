@@ -1,6 +1,8 @@
 # Clone of Generals.io
 This project is meant to clone the game generals.io using React in live on [twitch.tv/dhyegocalota](https://twitch.tv/dhyegocalota)
 
+![Demo](https://raw.githubusercontent.com/dhyegocalota/generals-io-webapp/master/demo.png)
+
 ## Prerequisites
 - Git
 - Node v14+
