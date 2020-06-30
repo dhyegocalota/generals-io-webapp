@@ -1,4 +1,5 @@
-import Board from "./Board";
+import Map from "./Map";
 import MapTile from "./MapTile";
+import MapTileState from "./MapTileState";
 
-export { Board, MapTile };
+export { Map, MapTile, MapTileState };

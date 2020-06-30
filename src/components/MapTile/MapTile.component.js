@@ -1,27 +1,51 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import { Group, Rect, Text } from "react-konva";
+import { Group, Rect, Text, Image } from "react-konva";
 
 function MapTile(props) {
-  const { zoom, size, fill, fontSize, ...restProps } = props;
-  const zoomedSize = size * zoom;
-  const widthAndHeight = { width: zoomedSize, height: zoomedSize };
-  const zoomedFontSize = fontSize * zoom;
+  const {
+    zoom,
+    size,
+    fill,
+    stroke,
+    fontSize,
+    image,
+    text,
+    rowIndex,
+    columnIndex,
+    ...restProps
+  } = props;
+
+  const zoomedSize = useMemo(() => size * zoom, [size, zoom]);
+  const widthAndHeight = useMemo(
+    () => ({
+      width: zoomedSize,
+      height: zoomedSize,
+    }),
+    [zoomedSize]
+  );
+
+  const zoomedFontSize = useMemo(() => fontSize * zoom, [fontSize, zoom]);
+  const x = useMemo(() => zoomedSize * columnIndex, [zoomedSize, columnIndex]);
+  const y = useMemo(() => zoomedSize * rowIndex, [zoomedSize, rowIndex]);
 
   return (
-    <Group {...restProps} {...widthAndHeight}>
-      <Rect fill={fill} {...widthAndHeight} />
-      <Text
-        text="424"
-        align="center"
-        verticalAlign="middle"
-        fill="#fff"
-        shadowColor="#000"
-        shadowBlur={3}
-        shadowOpacity={0.5}
-        fontSize={zoomedFontSize}
-        {...widthAndHeight}
-      />
+    <Group {...restProps} x={x} y={y} {...widthAndHeight}>
+      <Rect fill={fill} stroke={stroke} {...widthAndHeight} />
+      {image && <Image image={image} {...widthAndHeight} />}
+      {text && (
+        <Text
+          text={text}
+          align="center"
+          verticalAlign="middle"
+          fill="#fff"
+          shadowColor="#000"
+          shadowBlur={3}
+          shadowOpacity={0.5}
+          fontSize={zoomedFontSize}
+          {...widthAndHeight}
+        />
+      )}
     </Group>
   );
 }
@@ -30,13 +54,19 @@ MapTile.propTypes = {
   zoom: PropTypes.number,
   size: PropTypes.number,
   fill: PropTypes.string,
+  stroke: PropTypes.string,
   fontSize: PropTypes.number,
+  image: PropTypes.instanceOf(window.Image),
+  text: PropTypes.string,
+  rowIndex: PropTypes.number.isRequired,
+  columnIndex: PropTypes.number.isRequired,
 };
 
 MapTile.defaultProps = {
   zoom: 1,
   size: 50,
   fill: "#d0b0f0",
+  stroke: "#000",
   fontSize: 20,
 };
 
