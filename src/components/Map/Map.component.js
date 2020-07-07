@@ -1,63 +1,52 @@
-import React from "react";
-import { Stage, Layer } from "react-konva";
-import MapTileState from "components/MapTileState";
-
-//  0 → base
-//  1 → spawner
-//  2 → fog
-//  3 → army
-//  4 → blank
-const [BASE, SPAWNER, FOG, ARMY, BLANK] = [0, 1, 2, 3, 4];
+import React, { useCallback, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { Layer, Stage } from "react-konva";
+import { playersPropTypes, mapPropTypes } from "types";
+import { MapTileState } from "components";
+import "./Map.css";
 
 function Map(props) {
-  const mapState = [
-    [
-      [BASE, 1, 3],
-      [SPAWNER, null, null],
-      [ARMY, null, null],
-      [ARMY, null, null],
-      [FOG, null, null],
-    ],
-    [
-      [BLANK, null, null],
-      [ARMY, null, null],
-      [ARMY, null, null],
-      [BLANK, null, null],
-      [ARMY, null, null],
-    ],
-    [
-      [ARMY, null, null],
-      [ARMY, null, null],
-      [BLANK, null, null],
-      [ARMY, null, null],
-      [ARMY, null, null],
-    ],
-    [
-      [SPAWNER, null, null],
-      [ARMY, null, null],
-      [BLANK, null, null],
-      [BASE, 1, 3],
-      [ARMY, null, null],
-    ],
-    [
-      [BLANK, null, null],
-      [FOG, null, null],
-      [ARMY, null, null],
-      [ARMY, null, null],
-      [ARMY, null, null],
-    ],
-  ];
+  const { className, map, players, ...restProps } = props;
+  const numberOfRows = useMemo(() => map.length, [map]);
+  const numberOfColumns = useMemo(() => {
+    const firstRow = map[0];
+    return firstRow.length;
+  }, [map]);
+
+  const [tileSize, setTileSize] = useState(0);
+  const handleChangeSize = useCallback((size) => {
+    setTileSize(size);
+  }, []);
+
+  const mapWidth = useMemo(() => tileSize * numberOfColumns, [
+    tileSize,
+    numberOfColumns,
+  ]);
+
+  const mapHeight = useMemo(() => tileSize * numberOfRows, [
+    tileSize,
+    numberOfRows,
+  ]);
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight} {...props}>
+    <Stage
+      width={mapWidth}
+      height={mapHeight}
+      {...restProps}
+      className={classNames("Map", className)}
+    >
       <Layer>
-        {mapState.map((columns, rowIndex) => {
-          return columns.map((state, columnIndex) => {
+        {map.map((tiles, rowIndex) => {
+          return tiles.map((tile, columnIndex) => {
             return (
               <MapTileState
+                key={`${rowIndex}/${columnIndex}`}
+                onChangeSize={handleChangeSize}
                 rowIndex={rowIndex}
                 columnIndex={columnIndex}
-                state={state}
+                tile={tile}
+                players={players}
               />
             );
           });
@@ -67,6 +56,10 @@ function Map(props) {
   );
 }
 
-Map.propTypes = {};
+Map.propTypes = {
+  className: PropTypes.string,
+  map: mapPropTypes,
+  players: playersPropTypes,
+};
 
 export default Map;

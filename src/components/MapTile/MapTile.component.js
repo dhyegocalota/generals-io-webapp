@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Group, Rect, Text, Image } from "react-konva";
 
@@ -13,6 +13,7 @@ function MapTile(props) {
     text,
     rowIndex,
     columnIndex,
+    onChangeSize: triggerChangeSize,
     ...restProps
   } = props;
 
@@ -28,6 +29,12 @@ function MapTile(props) {
   const zoomedFontSize = useMemo(() => fontSize * zoom, [fontSize, zoom]);
   const x = useMemo(() => zoomedSize * columnIndex, [zoomedSize, columnIndex]);
   const y = useMemo(() => zoomedSize * rowIndex, [zoomedSize, rowIndex]);
+
+  useEffect(() => {
+    if (triggerChangeSize) {
+      triggerChangeSize(zoomedSize);
+    }
+  }, [triggerChangeSize, zoomedSize]);
 
   return (
     <Group {...restProps} x={x} y={y} {...widthAndHeight}>
@@ -57,15 +64,16 @@ MapTile.propTypes = {
   stroke: PropTypes.string,
   fontSize: PropTypes.number,
   image: PropTypes.instanceOf(window.Image),
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
+  onChangeSize: PropTypes.func,
 };
 
 MapTile.defaultProps = {
   zoom: 1,
   size: 50,
-  fill: "#d0b0f0",
+  fill: "#363636",
   stroke: "#000",
   fontSize: 20,
 };

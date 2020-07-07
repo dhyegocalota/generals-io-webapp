@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Game } from "components";
+import * as serviceWorker from "serviceWorker";
 import "./index.css";
-import { Map } from "./components";
-import * as serviceWorker from "./serviceWorker";
+
+import { map, players } from "hard-coded-game-state";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Map />
+    <Game turnsCount={192} map={map} players={players} />
   </React.StrictMode>,
   document.getElementById("root")
 );

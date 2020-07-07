@@ -1,15 +1,15 @@
 import { useMemo } from "react";
-import { useTileStateTypes } from "hooks";
+import { useIsValidPositiveInteger, useTileStateTypes } from "hooks";
 
-export default function useTileStateValidation(state) {
+export default function useTileStateValidation(tile) {
   const { typeKeys } = useTileStateTypes();
-  const isStateNotAnArray = useMemo(() => !Array.isArray(state), [state]);
+  const isStateNotAnArray = useMemo(() => !Array.isArray(tile), [tile]);
 
   if (isStateNotAnArray) {
     throw new Error("State must be an array");
   }
 
-  const [typeKey, ownerId, unitiesCount] = state;
+  const [typeKey, playerId, unitiesCount] = tile;
 
   const isValidTypeKey = useMemo(
     () =>
@@ -21,29 +21,22 @@ export default function useTileStateValidation(state) {
     throw new Error("Type is not valid");
   }
 
-  const isValidOwnerId = useMemo(() => {
-    const isNull = ownerId === null;
-    const isInteger = Number.isInteger(ownerId);
+  const isPlayerIdPositiveInteger = useIsValidPositiveInteger(playerId);
+  const isValidPlayerId = useMemo(() => {
+    const isNull = playerId === null;
 
-    return isNull || isInteger;
-  }, [ownerId]);
+    return isNull || isPlayerIdPositiveInteger;
+  }, [playerId, isPlayerIdPositiveInteger]);
 
-  if (!isValidOwnerId) {
-    throw new Error("Owner ID is not valid");
+  if (!isValidPlayerId) {
+    throw new Error("Player ID is not valid");
   }
 
-  const isValidUnitiesCount = useMemo(() => {
-    const isNull = unitiesCount === null;
-    const isInteger = Number.isInteger(unitiesCount);
-    const isPositive = unitiesCount > 0;
-    const isIntegerAndPositive = isInteger && isPositive;
-
-    return isNull || isIntegerAndPositive;
-  }, [unitiesCount]);
+  const isValidUnitiesCount = useIsValidPositiveInteger(unitiesCount);
 
   if (!isValidUnitiesCount) {
     throw new Error("Unities count is not valid");
   }
 
-  return { typeKey, ownerId, unitiesCount };
+  return { typeKey, playerId, unitiesCount };
 }

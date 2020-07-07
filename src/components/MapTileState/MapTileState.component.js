@@ -1,30 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-import MapTile from "components/MapTile";
-import { useTileState } from "hooks";
+import React, { useMemo } from "react";
+import { MapTile } from "components";
+import { usePlayerState, useTileState } from "hooks";
+import { playersPropTypes, tilePropTypes } from "types";
 
 function MapTileState(props) {
-  const { state, ...restProps } = props;
-  const { typeImage, unitiesCount } = useTileState(state);
+  const { tile, players, ...restProps } = props;
+  const { isOwned, playerId, typeImage, unitiesCount } = useTileState(tile);
 
-  return <MapTile {...restProps} image={typeImage} text={unitiesCount} />;
+  const player = useMemo(() => {
+    if (isOwned) {
+      return players[playerId];
+    }
+  }, [isOwned, players, playerId]);
+
+  const { color } = usePlayerState(player);
+
+  return (
+    <MapTile
+      {...restProps}
+      image={typeImage}
+      text={unitiesCount}
+      fill={color}
+    />
+  );
 }
 
 MapTileState.propTypes = {
-  // State definition
-  //
-  // [type, ownerId, unitiesCount]
-  //
-  // @type Number
-  //  0 → base
-  //  1 → spawner
-  //  2 → fog
-  //  3 → army
-  //  4 → blank
-  //
-  // @ownerId Number
-  // @unitiesCount Number
-  state: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  tile: tilePropTypes,
+  players: playersPropTypes,
 };
 
 export default MapTileState;
