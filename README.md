@@ -23,4 +23,18 @@ This project is meant to clone the game generals.io using React in live on [twit
     - Chat
 
 ## Episodes
-- Ep. 1 (missing link)
+
+### Ep. 1
+// TODO: Add description
+
+### Ep. 2
+// TODO: Add description
+
+### Ep. 3
+// TODO: Add description
+
+### Ep. 4
+- Map tile looks closer to the original application
+- Static demo game state looks closer like a real game
+- Map tile supports revealed/unrevealed state
+- Map tile supports hovering by cursor style set as pointer
