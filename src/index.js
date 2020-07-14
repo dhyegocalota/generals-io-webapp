@@ -4,7 +4,7 @@ import { Game } from "components";
 import * as serviceWorker from "serviceWorker";
 import "./index.css";
 
-import { map, players } from "hard-coded-game-state";
+import { map, players } from "static-demo-game-state";
 
 ReactDOM.render(
   <React.StrictMode>
