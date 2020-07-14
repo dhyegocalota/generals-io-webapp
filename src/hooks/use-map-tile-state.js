@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { Stage } from "konva";
 import { usePlayerState, useTileState } from "hooks";
 
 export default function useMapTileState({
@@ -70,5 +71,42 @@ export default function useMapTileState({
     }
   }, [isRevealed, revealedStroke]);
 
-  return { image: typeImage, text: unitiesCount, fill, stroke };
+  const getStageByEventTarget = useCallback((eventTarget) => {
+    const isStage = eventTarget instanceof Stage;
+
+    if (isStage) {
+      return eventTarget;
+    }
+
+    return getStageByEventTarget(eventTarget.getParent());
+  }, []);
+
+  const handleMouseEnter = useCallback(
+    (event) => {
+      if (isOwned) {
+        const stage = getStageByEventTarget(event.currentTarget);
+        stage.container().style.cursor = "pointer";
+      }
+    },
+    [isOwned, getStageByEventTarget]
+  );
+
+  const handleMouseLeave = useCallback(
+    (event) => {
+      if (isOwned) {
+        const stage = getStageByEventTarget(event.currentTarget);
+        stage.container().style.cursor = "default";
+      }
+    },
+    [isOwned, getStageByEventTarget]
+  );
+
+  return {
+    image: typeImage,
+    text: unitiesCount,
+    fill,
+    stroke,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+  };
 }
