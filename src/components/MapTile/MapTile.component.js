@@ -5,6 +5,7 @@ import { Group, Rect, Text, Image } from "react-konva";
 function MapTile(props) {
   const {
     zoom,
+    imageZoom,
     size,
     fill,
     stroke,
@@ -27,8 +28,12 @@ function MapTile(props) {
   );
 
   const zoomedFontSize = useMemo(() => fontSize * zoom, [fontSize, zoom]);
-  const x = useMemo(() => zoomedSize * columnIndex, [zoomedSize, columnIndex]);
-  const y = useMemo(() => zoomedSize * rowIndex, [zoomedSize, rowIndex]);
+  const tileX = useMemo(() => zoomedSize * columnIndex, [
+    zoomedSize,
+    columnIndex,
+  ]);
+
+  const tileY = useMemo(() => zoomedSize * rowIndex, [zoomedSize, rowIndex]);
 
   useEffect(() => {
     if (triggerChangeSize) {
@@ -36,10 +41,35 @@ function MapTile(props) {
     }
   }, [triggerChangeSize, zoomedSize]);
 
+  const zoomedImageSize = useMemo(() => zoomedSize * imageZoom, [
+    zoomedSize,
+    imageZoom,
+  ]);
+
+  const widthAndHeightOfImage = useMemo(
+    () => ({
+      width: zoomedImageSize,
+      height: zoomedImageSize,
+    }),
+    [zoomedImageSize]
+  );
+
+  const imageXY = useMemo(() => ((zoomedSize - zoomedImageSize) / 2) * -1, [
+    zoomedSize,
+    zoomedImageSize,
+  ]);
+
   return (
-    <Group {...restProps} x={x} y={y} {...widthAndHeight}>
+    <Group {...restProps} x={tileX} y={tileY} {...widthAndHeight}>
       <Rect fill={fill} stroke={stroke} {...widthAndHeight} />
-      {image && <Image image={image} {...widthAndHeight} />}
+      {image && (
+        <Image
+          image={image}
+          {...widthAndHeightOfImage}
+          offset={{ x: imageXY, y: imageXY }}
+          opacity={0.8}
+        />
+      )}
       {text && (
         <Text
           text={text}
@@ -47,8 +77,8 @@ function MapTile(props) {
           verticalAlign="middle"
           fill="#fff"
           shadowColor="#000"
-          shadowBlur={3}
-          shadowOpacity={0.5}
+          shadowBlur={2}
+          shadowOpacity={0.85}
           fontSize={zoomedFontSize}
           {...widthAndHeight}
         />
@@ -59,6 +89,7 @@ function MapTile(props) {
 
 MapTile.propTypes = {
   zoom: PropTypes.number,
+  imageZoom: PropTypes.number,
   size: PropTypes.number,
   fill: PropTypes.string,
   stroke: PropTypes.string,
@@ -72,9 +103,9 @@ MapTile.propTypes = {
 
 MapTile.defaultProps = {
   zoom: 1,
+  imageZoom: 0.8,
   size: 50,
   fill: "#363636",
-  stroke: "#000",
   fontSize: 20,
 };
 

@@ -9,7 +9,7 @@ export default function useTileStateValidation(tile) {
     throw new Error("State must be an array");
   }
 
-  const [typeKey, playerId, unitiesCount] = tile;
+  const [typeKey, isRevealed, playerId, unitiesCount] = tile;
 
   const isValidTypeKey = useMemo(
     () =>
@@ -19,6 +19,10 @@ export default function useTileStateValidation(tile) {
 
   if (!isValidTypeKey) {
     throw new Error("Type is not valid");
+  }
+
+  if (typeof isRevealed !== "boolean") {
+    throw new Error("Revealed is not valid");
   }
 
   const isPlayerIdPositiveInteger = useIsValidPositiveInteger(playerId);
@@ -38,5 +42,5 @@ export default function useTileStateValidation(tile) {
     throw new Error("Unities count is not valid");
   }
 
-  return { typeKey, playerId, unitiesCount };
+  return { typeKey, isRevealed, playerId, unitiesCount };
 }

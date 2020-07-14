@@ -1,26 +1,24 @@
-import React, { useMemo } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { MapTile } from "components";
-import { usePlayerState, useTileState } from "hooks";
+import { useMapTileState } from "hooks";
 import { playersPropTypes, tilePropTypes } from "types";
 
 function MapTileState(props) {
-  const { tile, players, ...restProps } = props;
-  const { isOwned, playerId, typeImage, unitiesCount } = useTileState(tile);
-
-  const player = useMemo(() => {
-    if (isOwned) {
-      return players[playerId];
-    }
-  }, [isOwned, players, playerId]);
-
-  const { color } = usePlayerState(player);
+  const { tile, players, rowIndex, columnIndex, ...restProps } = props;
+  const mapTileState = useMapTileState({
+    players,
+    tile,
+    rowIndex,
+    columnIndex,
+  });
 
   return (
     <MapTile
       {...restProps}
-      image={typeImage}
-      text={unitiesCount}
-      fill={color}
+      {...mapTileState}
+      rowIndex={rowIndex}
+      columnIndex={columnIndex}
     />
   );
 }
@@ -28,6 +26,8 @@ function MapTileState(props) {
 MapTileState.propTypes = {
   tile: tilePropTypes,
   players: playersPropTypes,
+  rowIndex: PropTypes.number.isRequired,
+  columnIndex: PropTypes.number.isRequired,
 };
 
 export default MapTileState;

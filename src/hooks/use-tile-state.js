@@ -15,6 +15,7 @@ import { crown, mountain, questionMark, tower } from "assets";
  *      2: fog
  *      3: army
  *      4: blank
+ *    isRevealed {boolean}
  *    playerId {number}
  *    unitiesCount {number}
  *
@@ -23,12 +24,19 @@ import { crown, mountain, questionMark, tower } from "assets";
  *    typeValue:    "BASE" | "SPAWNER" | "FOG" | "ARMY" | "BLANK"
  *    typeImageUrl: "https://link.to/the-image"
  *    typeImage:    {HTMLImage}
- *    playerId:      {number}
+ *    isRevealed:   {boolean}
+ *    playerId:     {number}
  *    unitiesCount: {number}
  */
 export default function useTileState(tile) {
   const { typesEnum } = useTileStateTypes();
-  const { typeKey, playerId, unitiesCount } = useTileStateValidation(tile);
+  const {
+    typeKey,
+    isRevealed,
+    playerId,
+    unitiesCount,
+  } = useTileStateValidation(tile);
+
   const typeValue = useMemo(() => typesEnum[typeKey], [typesEnum, typeKey]);
   const typeImageUrl = useMemo(
     () =>
@@ -40,14 +48,25 @@ export default function useTileState(tile) {
 
   const [typeImage] = useImage(typeImageUrl);
   const isOwned = useMemo(() => !!playerId, [playerId]);
+  const isBaseType = useMemo(() => typeValue === "BASE", [typeValue]);
+  const isSpawnerType = useMemo(() => typeValue === "SPAWNER", [typeValue]);
+  const isFogType = useMemo(() => typeValue === "FOG", [typeValue]);
+  const isArmyType = useMemo(() => typeValue === "ARMY", [typeValue]);
+  const isBlankType = useMemo(() => typeValue === "BLANK", [typeValue]);
 
   return {
     typeKey,
     typeValue,
     typeImageUrl,
     typeImage,
+    isRevealed,
     playerId,
     unitiesCount,
     isOwned,
+    isBaseType,
+    isSpawnerType,
+    isFogType,
+    isArmyType,
+    isBlankType,
   };
 }
