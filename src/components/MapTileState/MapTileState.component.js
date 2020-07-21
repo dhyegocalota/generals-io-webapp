@@ -5,12 +5,23 @@ import { useMapTileState } from "hooks";
 import { playersPropTypes, tilePropTypes } from "types";
 
 function MapTileState(props) {
-  const { tile, players, rowIndex, columnIndex, ...restProps } = props;
+  const {
+    tile,
+    players,
+    rowIndex,
+    columnIndex,
+    selectedMapPosition,
+    onChangeSelectedMapPosition: handleChangeSelectedMapPosition,
+    ...restProps
+  } = props;
+
   const mapTileState = useMapTileState({
     players,
     tile,
     rowIndex,
     columnIndex,
+    selectedMapPosition,
+    onChangeSelectedMapPosition: handleChangeSelectedMapPosition,
   });
 
   return (
@@ -28,6 +39,11 @@ MapTileState.propTypes = {
   players: playersPropTypes,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
+  selectedMapPosition: PropTypes.shape({
+    rowIndex: PropTypes.number,
+    columnIndex: PropTypes.number,
+  }).isRequired,
+  onChangeSelectedMapPosition: PropTypes.func.isRequired,
 };
 
 export default MapTileState;

@@ -7,10 +7,13 @@ export default function useMapTileState({
   tile,
   rowIndex,
   columnIndex,
+  selectedMapPosition,
+  onChangeSelectedMapPosition: triggerChangeSelectedMapPosition,
   notRevealedFill = "#363636",
   notOwnedArmyFill = "#D7D7D7",
   notOwnedSpawnerFill = "#757575",
   blankFill = "#B3B3B3",
+  selectedStroke = "#fff",
   revealedStroke = "#000",
 }) {
   const tileState = useTileState(tile);
@@ -65,11 +68,22 @@ export default function useMapTileState({
     blankFill,
   ]);
 
+  const isSelected = useMemo(() => {
+    return (
+      rowIndex === selectedMapPosition.rowIndex &&
+      columnIndex === selectedMapPosition.columnIndex
+    );
+  }, [selectedMapPosition, rowIndex, columnIndex]);
+
   const stroke = useMemo(() => {
+    if (isSelected) {
+      return selectedStroke;
+    }
+
     if (isRevealed) {
       return revealedStroke;
     }
-  }, [isRevealed, revealedStroke]);
+  }, [isSelected, selectedStroke, isRevealed, revealedStroke]);
 
   const getStageByEventTarget = useCallback((eventTarget) => {
     const isStage = eventTarget instanceof Stage;
@@ -81,25 +95,33 @@ export default function useMapTileState({
     return getStageByEventTarget(eventTarget.getParent());
   }, []);
 
+  const canMove = isOwned;
+
   const handleMouseEnter = useCallback(
     (event) => {
-      if (isOwned) {
+      if (canMove) {
         const stage = getStageByEventTarget(event.currentTarget);
         stage.container().style.cursor = "pointer";
       }
     },
-    [isOwned, getStageByEventTarget]
+    [canMove, getStageByEventTarget]
   );
 
   const handleMouseLeave = useCallback(
     (event) => {
-      if (isOwned) {
+      if (canMove) {
         const stage = getStageByEventTarget(event.currentTarget);
         stage.container().style.cursor = "default";
       }
     },
-    [isOwned, getStageByEventTarget]
+    [canMove, getStageByEventTarget]
   );
+
+  const handleClick = useCallback(() => {
+    if (canMove) {
+      triggerChangeSelectedMapPosition({ rowIndex, columnIndex });
+    }
+  }, [canMove, rowIndex, columnIndex, triggerChangeSelectedMapPosition]);
 
   return {
     image: typeImage,
@@ -108,5 +130,6 @@ export default function useMapTileState({
     stroke,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
+    onClick: handleClick,
   };
 }

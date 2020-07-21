@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Layer, Stage } from "react-konva";
 import { playersPropTypes, mapPropTypes } from "types";
+import { useSortedMapWithPosition } from "hooks";
 import { MapTileState } from "components";
 import "./Map.css";
 
@@ -29,6 +30,16 @@ function Map(props) {
     numberOfRows,
   ]);
 
+  const [selectedMapPosition, setSelectedMapPosition] = useState({
+    rowIndex: null,
+    columnIndex: null,
+  });
+
+  const sortedMapWithPosition = useSortedMapWithPosition({
+    map,
+    selectedMapPosition,
+  });
+
   return (
     <Stage
       width={mapWidth}
@@ -37,8 +48,8 @@ function Map(props) {
       className={classNames("Map", className)}
     >
       <Layer>
-        {map.map((tiles, rowIndex) => {
-          return tiles.map((tile, columnIndex) => {
+        {sortedMapWithPosition.map(({ sortedTilesWithPosition, rowIndex }) => {
+          return sortedTilesWithPosition.map(({ tile, columnIndex }) => {
             return (
               <MapTileState
                 key={`${rowIndex}/${columnIndex}`}
@@ -47,6 +58,8 @@ function Map(props) {
                 columnIndex={columnIndex}
                 tile={tile}
                 players={players}
+                selectedMapPosition={selectedMapPosition}
+                onChangeSelectedMapPosition={setSelectedMapPosition}
               />
             );
           });
