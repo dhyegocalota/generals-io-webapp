@@ -9,6 +9,7 @@ export default function useMapTileState({
   columnIndex,
   selectedMapPosition,
   onChangeSelectedMapPosition: triggerChangeSelectedMapPosition,
+  possibleNextMapPositions,
   notRevealedFill = "#363636",
   notOwnedArmyFill = "#D7D7D7",
   notOwnedSpawnerFill = "#757575",
@@ -27,6 +28,20 @@ export default function useMapTileState({
     isBlankType,
     isArmyType,
   } = tileState;
+
+  const isNextPossibleMove = useMemo(() => {
+    const isNextPossibleMapPosition = Object.values(
+      possibleNextMapPositions
+    ).some((maybeNextMapPosition) => {
+      return (
+        maybeNextMapPosition &&
+        maybeNextMapPosition.rowIndex === rowIndex &&
+        maybeNextMapPosition.columnIndex === columnIndex
+      );
+    });
+
+    return isNextPossibleMapPosition && !isBlankType;
+  }, [possibleNextMapPositions, rowIndex, columnIndex, isBlankType]);
 
   const player = useMemo(() => {
     if (isOwned) {
@@ -95,7 +110,9 @@ export default function useMapTileState({
     return getStageByEventTarget(eventTarget.getParent());
   }, []);
 
-  const canMove = isOwned;
+  const canMove = useMemo(() => {
+    return isOwned || isNextPossibleMove;
+  }, [isOwned, isNextPossibleMove]);
 
   const handleMouseEnter = useCallback(
     (event) => {
@@ -123,6 +140,8 @@ export default function useMapTileState({
     }
   }, [canMove, rowIndex, columnIndex, triggerChangeSelectedMapPosition]);
 
+  const isHighlight = isNextPossibleMove;
+
   return {
     image: typeImage,
     text: unitiesCount,
@@ -131,5 +150,6 @@ export default function useMapTileState({
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
     onClick: handleClick,
+    highlight: isHighlight,
   };
 }

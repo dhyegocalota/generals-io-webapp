@@ -14,27 +14,34 @@ This project is meant to clone the game generals.io using React in live on [twit
 3. Run using `yarn start` or `npm start`
 
 ## Roadmap
-- To create the board game UI
-- To create business rules of the game
-- To create the match making
-- To create extra functionalities
-    - Keyboard shortcuts
-    - Replay
-    - Chat
+- [ ] Support enqueing moves
+- [ ] Render turns count
+- [ ] Render players state
+- [ ] Render alert of Win message
+- [ ] Render room page
+- [ ] Render welcome page
+- [ ] Server
 
 ## Episodes
 
-### Ep. 1
+### Ep. 1 (06/22/20)
 // TODO: Add description
 
-### Ep. 2
+### Ep. 2 (06/29/20)
 // TODO: Add description
 
-### Ep. 3
+### Ep. 3 (07/06/20)
 // TODO: Add description
 
-### Ep. 4
+### Ep. 4 (07/13/20)
 - Map tile looks closer to the original application
 - Static demo game state looks closer like a real game
 - Map tile supports revealed/unrevealed state
 - Map tile supports hovering by cursor style set as pointer
+
+### Ep. 5 (07/20/20)
+- Added unities count to the spawner tiles (in the static game data)
+- Map tile can be selected
+- Possible next map positions are highlighted
+
+### Ep. 6 (07/27/20)

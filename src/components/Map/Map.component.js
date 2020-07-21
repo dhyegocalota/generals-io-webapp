@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Layer, Stage } from "react-konva";
 import { playersPropTypes, mapPropTypes } from "types";
-import { useSortedMapWithPosition } from "hooks";
+import { usePossibleNextMapPositions, useSortedMapWithPosition } from "hooks";
 import { MapTileState } from "components";
 import "./Map.css";
 
@@ -35,6 +35,11 @@ function Map(props) {
     columnIndex: null,
   });
 
+  const possibleNextMapPositions = usePossibleNextMapPositions({
+    map,
+    selectedMapPosition,
+  });
+
   const sortedMapWithPosition = useSortedMapWithPosition({
     map,
     selectedMapPosition,
@@ -60,6 +65,7 @@ function Map(props) {
                 players={players}
                 selectedMapPosition={selectedMapPosition}
                 onChangeSelectedMapPosition={setSelectedMapPosition}
+                possibleNextMapPositions={possibleNextMapPositions}
               />
             );
           });

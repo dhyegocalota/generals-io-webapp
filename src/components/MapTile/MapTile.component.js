@@ -15,6 +15,7 @@ function MapTile(props) {
     rowIndex,
     columnIndex,
     onChangeSize: triggerChangeSize,
+    highlight: isHighlight,
     ...restProps
   } = props;
 
@@ -83,6 +84,7 @@ function MapTile(props) {
           {...widthAndHeight}
         />
       )}
+      {isHighlight && <Rect fill="#000" {...widthAndHeight} opacity={0.5} />}
     </Group>
   );
 }
@@ -99,6 +101,7 @@ MapTile.propTypes = {
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
   onChangeSize: PropTypes.func,
+  highlight: PropTypes.bool,
 };
 
 MapTile.defaultProps = {

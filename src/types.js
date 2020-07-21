@@ -8,6 +8,10 @@ const tilePropTypes = PropTypes.arrayOf(
 );
 const tilesPropTypes = PropTypes.arrayOf(tilePropTypes);
 const mapPropTypes = PropTypes.arrayOf(tilesPropTypes);
+const mapPositionPropTypes = PropTypes.shape({
+  rowIndex: PropTypes.number,
+  columnIndex: PropTypes.number,
+});
 
 export {
   turnsCountPropTypes,
@@ -16,4 +20,5 @@ export {
   tilePropTypes,
   tilesPropTypes,
   mapPropTypes,
+  mapPositionPropTypes,
 };

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MapTile } from "components";
 import { useMapTileState } from "hooks";
-import { playersPropTypes, tilePropTypes } from "types";
+import { playersPropTypes, tilePropTypes, mapPositionPropTypes } from "types";
 
 function MapTileState(props) {
   const {
@@ -12,6 +12,7 @@ function MapTileState(props) {
     columnIndex,
     selectedMapPosition,
     onChangeSelectedMapPosition: handleChangeSelectedMapPosition,
+    possibleNextMapPositions,
     ...restProps
   } = props;
 
@@ -22,6 +23,7 @@ function MapTileState(props) {
     columnIndex,
     selectedMapPosition,
     onChangeSelectedMapPosition: handleChangeSelectedMapPosition,
+    possibleNextMapPositions,
   });
 
   return (
@@ -39,11 +41,14 @@ MapTileState.propTypes = {
   players: playersPropTypes,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
-  selectedMapPosition: PropTypes.shape({
-    rowIndex: PropTypes.number,
-    columnIndex: PropTypes.number,
-  }).isRequired,
+  selectedMapPosition: mapPositionPropTypes.isRequired,
   onChangeSelectedMapPosition: PropTypes.func.isRequired,
+  possibleNextMapPositions: PropTypes.shape({
+    top: mapPositionPropTypes,
+    right: mapPositionPropTypes,
+    bottom: mapPositionPropTypes,
+    left: mapPositionPropTypes,
+  }).isRequired,
 };
 
 export default MapTileState;
