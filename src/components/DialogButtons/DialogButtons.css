@@ -1,0 +1,10 @@
+.DialogButtons {
+    display: flex;
+    margin-top: .55em;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DialogButtons .Button {
+    margin: .25em 0;
+}

@@ -1,0 +1,17 @@
+.Dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Dialog__Content {
+    min-width: 150px;
+    padding: 1em;
+    background-color: #fff;
+    box-shadow: 2px 2px 0 var(--primary-color);
+}

@@ -13,15 +13,6 @@ This project is meant to clone the game generals.io using React in live on [twit
 2. Install using `yarn install` or `npm install`
 3. Run using `yarn start` or `npm start`
 
-## Roadmap
-- [ ] Support enqueing moves
-- [ ] Render turns count
-- [ ] Render players state
-- [ ] Render alert of Win message
-- [ ] Render room page
-- [ ] Render welcome page
-- [ ] Server
-
 ## Episodes
 
 ### Ep. 1 (06/22/20)
@@ -34,14 +25,26 @@ This project is meant to clone the game generals.io using React in live on [twit
 // TODO: Add description
 
 ### Ep. 4 (07/13/20)
-- Map tile looks closer to the original application
-- Static demo game state looks closer like a real game
-- Map tile supports revealed/unrevealed state
-- Map tile supports hovering by cursor style set as pointer
+- [x] Map tile looks closer to the original application
+- [x] Static demo game state looks closer like a real game
+- [x] Map tile supports revealed/unrevealed state
+- [x] Map tile supports hovering by cursor style set as pointer
 
 ### Ep. 5 (07/20/20)
-- Added unities count to the spawner tiles (in the static game data)
-- Map tile can be selected
-- Possible next map positions are highlighted
+- [x] Added unities count to the spawner tiles (in the static game data)
+- [x] Map tile can be selected
+- [x] Possible next map positions are highlighted
 
 ### Ep. 6 (07/27/20)
+- [x] Added turns count
+- [x] Added player list
+- [x] Added surrender dialog
+- [x] Added win dialog
+
+### Ep. 7 (08/03/20)
+- [ ] Add chat
+- [ ] Create the "welcome" page
+- [ ] Create the "waiting in the room" page
+- [ ] Support divide army before moving
+- [ ] Support enqueing moves
+- [ ] Support zooming

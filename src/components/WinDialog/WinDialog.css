@@ -1,0 +1,6 @@
+.WinDialog {}
+
+.WinDialog__Title {
+    margin: 0;
+    text-align: center;
+}

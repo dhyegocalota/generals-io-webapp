@@ -1,0 +1,16 @@
+.Players {
+    background-color: #fff;
+    border-collapse: collapse;
+    font-size: .9em;
+}
+
+.Players th,
+.Players td {
+    padding: .25em .5em;
+    border: 1.5px solid #1f1f1f;
+}
+
+.Players th:first-child,
+.Players td:first-child { text-align: center }
+
+.Players th { font-weight: normal }

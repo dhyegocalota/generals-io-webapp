@@ -1,0 +1,7 @@
+.TurnsCount {
+    display: inline-block;
+    padding: .2em .4em;
+    background-color: #fff;
+    font-size: .85em;
+    box-shadow: 2px 2px 0 var(--primary-color);
+}

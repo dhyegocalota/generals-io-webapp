@@ -1,0 +1,41 @@
+.Button {
+    padding: .45em .9em;
+    border: 0;
+    cursor: pointer;
+}
+
+.Button:focus { outline: none }
+
+.Button:active { opacity: .8 }
+
+.Button--small {
+    font-size: .7em;
+}
+
+.Button--regular {
+    font-size: 1em;
+}
+
+.Button--big {
+    font-size: 1.3em;
+}
+
+.Button--blank {
+    background-color: #fff;
+    color: var(--primary-color);
+    box-shadow: 2px 2px 0 var(--primary-color);
+}
+
+.Button--blank:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 4px 4px 0 var(--primary-color);
+}
+
+.Button--primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 2px 2px 0 var(--primary-color);
+}
+
+.Button--primary:hover { box-shadow: 4px 4px 0 var(--primary-color) }
