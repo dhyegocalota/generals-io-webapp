@@ -3,6 +3,9 @@ This project is meant to clone the game generals.io using React in live on [twit
 
 ![Demo](https://raw.githubusercontent.com/dhyegocalota/generals-io-webapp/master/demo.png)
 
+## Backend
+You can find out more about the backend application created using Elixir as well: [dhyegocalota/generals-io-webapi](https://github.com/dhyegocalota/generals-io-webapi)
+
 ## Prerequisites
 - Git
 - Node v14+
